@@ -53,7 +53,9 @@ package_install() {
 	PACKAGE_URL=$(package_search $1)
 	print "from location ${PACKAGE_URL}."
 
-	curl -silent "${PACKAGE_URL}" -o - | sh
+	TARGET="$PACKAGE_CACHE/$(basename $PACKAGE_URL)"
+	download "${PACKAGE_URL}" "$TARGET"
+	. "$TARGET"
 }
 
 # Update the package cache and package list
