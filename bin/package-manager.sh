@@ -35,17 +35,18 @@ package_update_repo() {
 
 	print_action "Updating available packages"
 	for repo in `cat ${CONFIG_DIR}/repos`; do
-		curl repo -o - >> $PACKAGE_LIST
+		curl "$repo" -o - >> $PACKAGE_LIST
 	done
 }
 
-# Check the age of the current package list
-if test `find "${PACKAGE_LIST}" -mmin +${PACKAGE_LIST_MAX_AGE}`; then
+# Update when commandline flag --update-manager was given.
+echo "$*" | grep -q "\--update-manager"
+if [ $? -eq 0 ]; then
 	package_update_repo
 fi
 
-# Update when commandline flag --update-manager was given.
-echo "$*" | grep -q "--update-manager"
+# Check the age of the current package list
+find "${PACKAGE_LIST}" -mmin +${PACKAGE_LIST_MAX_AGE} 2>&1 /dev/null
 if [ $? -eq 0 ]; then
 	package_update_repo
 fi
