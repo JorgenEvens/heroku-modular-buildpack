@@ -20,5 +20,7 @@ download() {
 	URL=$1
 	TARGET=$2
 
-	curl -q -o "$2" "$1"
+
+	print_action "Downloading $URL"
+	curl -# -o "$TARGET" "$URL"
 }
