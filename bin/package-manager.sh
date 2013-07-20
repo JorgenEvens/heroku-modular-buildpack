@@ -10,7 +10,7 @@ PACKAGE_CACHE="${CACHE_DIR}/package_cache"
 
 # Searches if a package exists by this name.
 package_search() {
-	FOUND=`cat $PACKAGE_LIST | grep -e "^${1}\s"`
+	FOUND=`cat "$PACKAGE_LIST" | grep -e "^${1}\s"`
 	COUNT=`echo ${FOUND} | wc -l`
 
 	if [ "$COUNT" -gt 1 ]; then
@@ -30,7 +30,7 @@ package_search() {
 package_search_interactive() {
 	print_action "Searching package-manager for ${1}."
 
-	FOUND=`cat $PACKAGE_LIST | grep -e "^${1}\s"`
+	FOUND=`cat "$PACKAGE_LIST" | grep -e "^${1}\s"`
 	COUNT=`echo ${FOUND} | wc -l`
 
 	if [ "$COUNT" -gt 1 ]; then
@@ -43,7 +43,7 @@ package_search_interactive() {
 		return
 	fi
 
-	URL=`echo "${FOUND}" | cut -d" " -f2`
+	URL=$(package_search $1)
 	print "Package ${1} found at ${URL}."
 }
 
