@@ -15,7 +15,14 @@ package_search() {
 
 	if [ "$COUNT" -gt 1 ]; then
 		print "Multiple packages found with name ${1}. Aborting."
-		exit 1
+		echo ""
+		return
+	fi
+
+	if [ "$COUNT" -eq 0 ]; then
+		print "No package found with name ${1}."
+		echo ""
+		return
 	fi
 
 	echo "${FOUND}" | cut -d" " -f2
@@ -23,9 +30,11 @@ package_search() {
 
 # Install a given package
 package_install() {
+	print_action "Installing package ${1} through package manager"
 	PACKAGE_URL=$(package_search $1)
+	print "from location ${PACKAGE_URL}"
 
-	curl "${PACKAGE_URL}" -o - | sh
+	curl -silent "${PACKAGE_URL}" -o - | sh
 }
 
 # Update the package cache and package list
@@ -35,7 +44,7 @@ package_update_repo() {
 
 	print_action "Updating available packages"
 	for repo in `cat ${CONFIG_DIR}/repos`; do
-		curl "$repo" -o - >> $PACKAGE_LIST
+		curl -silent "$repo" -o - >> $PACKAGE_LIST
 	done
 }
 
