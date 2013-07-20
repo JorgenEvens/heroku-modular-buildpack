@@ -63,7 +63,7 @@ dependency_require() {
 		return
 	fi
 
-	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ];
+	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ]; then
 		package_search_interactive "${package}"
 		if [ "$(package_search ${package})" != "" ]; then
 			package_install ${package}
