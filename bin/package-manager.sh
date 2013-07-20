@@ -10,36 +10,28 @@ PACKAGE_CACHE="${CACHE_DIR}/package_cache"
 
 # Searches if a package exists by this name.
 package_search() {
-	print_action "Searching package-manager for ${1}."
-
-	FOUND="$(package_internal_search)"
+	FOUND=`cat $PACKAGE_LIST | grep -e "^${1}\s"`
 	COUNT=`echo ${FOUND} | wc -l`
 
+	# Multiple matches
 	if [ "$COUNT" -gt 1 ]; then
-		print "Multiple packages found with name ${1}. Aborting."
-		echo 1
+		echo ""
 		return
 	fi
 
+	# No Match at all
 	if [ "$COUNT" -eq 0 ]; then
-		print "No package found with name ${1}."
-		echo 1
+		echo ""
 		return
 	fi
 
-	echo 0
-}
-
-package_internal_search() {
-	FOUND=`cat $PACKAGE_LIST | grep -e "^${1}\s"`
-	
 	echo "${FOUND}" | cut -d" " -f2
 }
 
 # Install a given package
 package_install() {
 	print_action "Installing package ${1} through package manager"
-	PACKAGE_URL=$(package_internal_search $1)
+	PACKAGE_URL=$(package_search $1)
 	print "from location ${PACKAGE_URL}."
 
 	curl -silent "${PACKAGE_URL}" -o - | sh
