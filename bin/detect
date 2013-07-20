@@ -1,0 +1,11 @@
+#!/bin/sh
+
+BUILD_DIR=$1
+PACKAGE="${BUILD_DIR}/build/heroku/package"
+
+if [ -f "${PACKAGE}" ]; then
+	cat "${PACKAGE}"
+	exit 0
+else
+	exit 1
+fi
