@@ -3,6 +3,8 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 
+CONFIG_DIR="${BUILD_DIR}/build/heroku"
+
 mkdir -p "$CACHE_DIR"
 mkdir -p "$BUILD_DIR"
 
