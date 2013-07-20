@@ -21,6 +21,11 @@ fi
 
 PACKAGE_MANAGER_ENABLED=0
 if [ -f "${CONFIG_DIR}/repos" ]; then
+	print_action "Package manager enabled."
+	print "Repositories"
+	for repo in "${CONFIG_DIR}/repos"; do
+		print "- $repo"
+	done
 	PACKAGE_MANAGER_ENABLED=1
 	. "${BIN_DIR}/package-manager.sh"
 fi
@@ -58,7 +63,7 @@ dependency_require() {
 		return
 	fi
 
-	if [ $PACKAGE_MANAGER_ENABLED -gt 0 ] && [ "$(package_search ${package})" != "" ]; then
+	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ] && [ "$(package_search ${package})" != "" ]; then
 		package_install ${package}
 	fi
 
