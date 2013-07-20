@@ -20,7 +20,7 @@ nginx_download() {
 	print_action "Checking cache for $TARGET."
 	if [ ! -f "$TARGET" ]; then
 		print_action "Downloading Nginx ${VERSION} from ${URL} to ${TARGET}"
-		curl --silent -o "$TARGET" "$URL"
+		download "$URL" "$TARGET"
 	fi
 	if [ ! -f "$TARGET" ]; then
 		print "Unable to download the package"
