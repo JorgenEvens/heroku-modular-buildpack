@@ -41,8 +41,8 @@ dependency_require() {
 		return;
 	fi
 
-	if [ -f "${BUILD_DIR}/heroku/installers/${package}.sh" ]; then
-		. "${BUILD_DIR}/heroku/installers/${package}.sh"
+	if [ -f "${BUILD_DIR}/build/heroku/installers/${package}.sh" ]; then
+		. "${BUILD_DIR}/build/heroku/installers/${package}.sh"
 		dependency_mark "${package}"
 		return;
 	fi
