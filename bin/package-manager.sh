@@ -46,7 +46,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # Check the age of the current package list
-find "${PACKAGE_LIST}" -mmin +${PACKAGE_LIST_MAX_AGE} 2>&1 /dev/null
+$(find "${PACKAGE_LIST}" -mmin +${PACKAGE_LIST_MAX_AGE}) 2> /dev/null
 if [ $? -eq 0 ]; then
 	package_update_repo
 fi
