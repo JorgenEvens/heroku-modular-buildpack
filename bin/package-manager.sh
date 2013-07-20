@@ -18,7 +18,7 @@ package_search() {
 		return
 	fi
 
-	if [ "$COUNT" -eq 0 ]; then
+	if [ "$FOUND" == "" ]; then
 		echo ""
 		return
 	fi
@@ -38,7 +38,7 @@ package_search_interactive() {
 		return
 	fi
 
-	if [ "$COUNT" -eq 0 ]; then
+	if [ "$FOUND" == "" ]; then
 		print "No package found with name ${1}."
 		return
 	fi
