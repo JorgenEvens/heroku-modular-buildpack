@@ -13,19 +13,38 @@ package_search() {
 	FOUND=`cat $PACKAGE_LIST | grep -e "^${1}\s"`
 	COUNT=`echo ${FOUND} | wc -l`
 
-	# Multiple matches
 	if [ "$COUNT" -gt 1 ]; then
 		echo ""
 		return
 	fi
 
-	# No Match at all
 	if [ "$COUNT" -eq 0 ]; then
 		echo ""
 		return
 	fi
 
 	echo "${FOUND}" | cut -d" " -f2
+}
+
+# Searches if a package exists by this name and display messages
+package_search_interactive() {
+	print_action "Searching package-manager for ${1}."
+
+	FOUND=`cat $PACKAGE_LIST | grep -e "^${1}\s"`
+	COUNT=`echo ${FOUND} | wc -l`
+
+	if [ "$COUNT" -gt 1 ]; then
+		print "Multiple packages found with name ${1}. Aborting."
+		return
+	fi
+
+	if [ "$COUNT" -eq 0 ]; then
+		print "No package found with name ${1}."
+		return
+	fi
+
+	URL=`echo "${FOUND}" | cut -d" " -f2`
+	print "Package ${1} found at ${URL}."
 }
 
 # Install a given package

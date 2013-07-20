@@ -63,8 +63,11 @@ dependency_require() {
 		return
 	fi
 
-	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ] && [ "$(package_search ${package})" != "" ]; then
-		package_install ${package}
+	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ];
+		package_search_interactive "${package}"
+		if [ "$(package_search ${package})" != "" ]; then
+			package_install ${package}
+		fi
 	fi
 
 	print_action "Installer for ${package} not found!"
