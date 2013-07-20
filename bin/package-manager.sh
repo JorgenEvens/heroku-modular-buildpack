@@ -49,6 +49,7 @@ package_search_interactive() {
 
 # Install a given package
 package_install() {
+	mkdir -p "$PACKAGE_CACHE" 2> /dev/null
 	print_action "Installing package ${1} through package manager"
 	PACKAGE_URL=$(package_search $1)
 	print "from location ${PACKAGE_URL}."
