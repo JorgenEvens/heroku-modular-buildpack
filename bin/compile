@@ -83,3 +83,5 @@ done
 if [ -f "${CONFIG_DIR}/compile" ]; then
 	. "${CONFIG_DIR}/compile"
 fi
+
+echo "wait" >> "${BUILD_DIR}/boot.sh"

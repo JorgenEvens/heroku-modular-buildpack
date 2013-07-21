@@ -57,7 +57,7 @@ nginx_install() {
 nginx_generate_boot() {
 	print_action "Generating boot portion for nginx"
 	echo 'sed -i "s/listen\s\+80;/listen $PORT;/g" "/app/vendor/nginx/conf/nginx.conf"' >> "${BUILD_DIR}/boot.sh"
-	echo "/app/vendor/nginx/sbin/nginx" >> "${BUILD_DIR}/boot.sh"
+	echo "/app/vendor/nginx/sbin/nginx &" >> "${BUILD_DIR}/boot.sh"
 }
 
 nginx_compile
