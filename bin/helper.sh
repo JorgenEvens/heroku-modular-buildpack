@@ -3,6 +3,8 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 
+CONFIG_DIR="${BUILD_DIR}/build/heroku"
+
 mkdir -p "$CACHE_DIR"
 mkdir -p "$BUILD_DIR"
 
@@ -18,5 +20,7 @@ download() {
 	URL=$1
 	TARGET=$2
 
-	curl -q -o "$2" "$1"
+
+	print_action "Downloading $URL"
+	curl -# -o "$TARGET" "$URL"
 }

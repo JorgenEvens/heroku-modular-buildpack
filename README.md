@@ -15,19 +15,52 @@ A minimum configuration has at least these files living in `/build/heroku/`:
 
 Optional components are:
 
-- `installers`: a directory containing custom installers.
+- `installers`: a directory containing [custom installers][2].
+- `compile`: a [custom compile](#project-specific-compile) script for your project that will be run after all the packages have been installed.
+- `repos`: a file containing package repositories, the presence of this file enables the [package manager][3].
 
 ## Packages
 
-Packages are represented by installer scripts that install one specific part of your environment, for example there is an installer included under `installers` which install a basic nginx webserver.
+Packages are represented by [installer scripts][2] that install one specific part of your environment, for example there is an installer included under `installers` which install a basic nginx webserver.
 
 The name of a package is the name of it's installer script without the `.sh` extension.
+
+## Package manager
+
+This buildpack includes a package manager which allows you to centralize the management of your packages.
+
+### Enabling the package manager
+By default the package manager is disabled, you can enable it simply by adding a `repos` file to your `/build/heroku/` directory.
+
+The file-format of the `repos` file is as simple as a link ( any link supported by curl ) per line of the file.
+
+Sample `repos` file:
+
+```
+http://jorgen.evens.eu/heroku/index
+http://example.com/deploy/heroku
+```
+
+### Repositories
+
+A repository is a plain text file using the following format `<package-name> <package-link> <comments>` where each package is on its own line. It is important to use a space to separate the package from its link, a tab is currently not supported.
+
+`<package-link>` is a link ( any link supported by curl ) to the [installer file][2] for the package.
+
+A sample repository
+
+```
+nginx-deploy-page http://jorgen.evens.eu/heroku/nginx-deploy-page.sh # Exposes deployment information through a static page.
+```
+
+Note: Currently no versioning of packages is available. If you would like to add multiple versions you will have to include the version in the package name. `nginx-1.4.2` for example.
 
 ## Custom installers
 
 You can build your own buildpack by forking this repository and adding your own installers, but if you would
-like to keep your buildpack as clean as possible you can also install installer scripts in the `/build/heroku/installers`
-folder of your project.
+like to keep your buildpack as clean as possible you can also install installer scripts in the `/build/heroku/installers` folder of your project.
+
+An alternative is to use the [package manager][3] to distribute the packages.
 
 ### Variables
 
@@ -44,13 +77,29 @@ An installer has access to some helper functions to print to the console and to 
 
 - `print_action`: prints the message prefixed with the '-------> ' arrow.
 - `print`: prints the message prefixed with spaces to align it with `print_action`.
-
 - `dependency_require <package>`: requires the installation of the dependency before continuing. 
 - `dependency_mark <package>`: marks a package as installed. This is primarily for internal use.
 
 Note: You should NOT mark your own package as installed using `dependency_mark`, this is done for you.
 
+### boot.sh
+
+A `boot.sh` file is always created with a shebang `#!/bin/sh` followed by an empty line. If your installer wants to add something to the `boot.sh` file you should simple append the lines to the `${BUILD_DIR}/boot.sh` file.
+
+It is important that you send blocking applications to the background using `&`. For example:
+```
+/app/vendor/nginx/sbin/nginx &
+```
+
+A `wait` will be added to the end of the boot.sh script so that the script will wait for the background tasks to complete and heroku will not think that the script exited. This way all the commands in the `boot.sh` file get executed and all services start as they are supposed to.
+
+## Project specific compile
+
+The project specific `compile` script has access to the same functionality as a [custom installer][2] and is for all intents and purposes a custom installer that always gets run at the end.
+
 ## License
 This project is available under the New BSD License.
 
 [1]: https://devcenter.heroku.com/articles/buildpack-api#bin-release
+[2]: #custom-installers
+[3]: #package-manager

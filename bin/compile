@@ -7,17 +7,27 @@
 ## License: New BSD License				   ##
 #############################################################
 
-
 BIN_DIR=$(dirname $0)
 
 # Include helper
 . "$BIN_DIR/helper.sh"
 
-INSTALL="${BUILD_DIR}/build/heroku/install"
+INSTALL="${CONFIG_DIR}/install"
 if [ -f "$INSTALL" ]; then
 	INSTALL=`cat "$INSTALL"`
 else
 	INSTALL=""
+fi
+
+PACKAGE_MANAGER_ENABLED=0
+if [ -f "${CONFIG_DIR}/repos" ]; then
+	print_action "Package manager enabled."
+	print "Repositories"
+	for repo in "${CONFIG_DIR}/repos"; do
+		print "- $repo"
+	done
+	PACKAGE_MANAGER_ENABLED=1
+	. "${BIN_DIR}/package-manager.sh"
 fi
 
 # Initial boot file
@@ -41,8 +51,8 @@ dependency_require() {
 		return;
 	fi
 
-	if [ -f "${BUILD_DIR}/build/heroku/installers/${package}.sh" ]; then
-		. "${BUILD_DIR}/build/heroku/installers/${package}.sh"
+	if [ -f "${CONFIG_DIR}/installers/${package}.sh" ]; then
+		. "${CONFIG_DIR}/installers/${package}.sh"
 		dependency_mark "${package}"
 		return;
 	fi
@@ -53,15 +63,25 @@ dependency_require() {
 		return
 	fi
 
+	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ]; then
+		package_search_interactive "${package}"
+		if [ ! -z "$(package_search ${package})" ]; then
+			package_install ${package}
+			return
+		fi
+	fi
+
 	print_action "Installer for ${package} not found!"
 	exit 1
 }
-
-if [ -f "${BUILD_DIR}/build/heroku/compile" ]; then
-	. "${BUILD_DIR}/build/heroku/compile"
-fi
 
 # Install all packages contained within $INSTALL
 for package in $INSTALL; do
 	dependency_require "${package}"
 done
+
+if [ -f "${CONFIG_DIR}/compile" ]; then
+	. "${CONFIG_DIR}/compile"
+fi
+
+echo "wait" >> "${BUILD_DIR}/boot.sh"
