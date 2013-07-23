@@ -19,7 +19,7 @@ nginx_download() {
 
 	print_action "Checking cache for $TARGET."
 	if [ ! -f "$TARGET" ]; then
-		print_action "Downloading Nginx ${VERSION} from ${URL} to ${TARGET}"
+		print_action "Downloading Nginx ${NGINX_VERSION} from ${URL} to ${TARGET}"
 		download "$URL" "$TARGET"
 	fi
 	if [ ! -f "$TARGET" ]; then
@@ -29,7 +29,7 @@ nginx_download() {
 }
 
 nginx_install() {
-	print_action "Installing Nginx ${VERSION} to ${BUILD_DIR}/vendor"
+	print_action "Installing Nginx ${NGINX_VERSION} to ${BUILD_DIR}/vendor"
 
 	mkdir -p "${BUILD_DIR}/vendor"
 
