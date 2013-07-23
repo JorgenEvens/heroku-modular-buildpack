@@ -3,8 +3,8 @@
 # Location to keep packages
 PACKAGE_LIST="${CACHE_DIR}/packages"
 
-# The maximum age of the package list before refreshing.
-PACKAGE_LIST_MAX_AGE="120"
+# The maximum age of the package list in minutes before refreshing.
+PACKAGE_LIST_MAX_AGE="5"
 
 PACKAGE_CACHE="${CACHE_DIR}/package_cache"
 
