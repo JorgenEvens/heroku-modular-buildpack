@@ -71,7 +71,7 @@ package_update_repo() {
 	done
 }
 
-# Update when commandline flag --update-manager was given.
+# update repositories using heroku config:set RELOAD_REPOSITORY=true
 if [ ! -z "$RELOAD_REPOSITORY" ]; then
 	package_update_repo
 fi

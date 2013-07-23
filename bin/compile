@@ -23,7 +23,7 @@ PACKAGE_MANAGER_ENABLED=0
 if [ -f "${CONFIG_DIR}/repos" ]; then
 	print_action "Package manager enabled."
 	print "Repositories"
-	for repo in "${CONFIG_DIR}/repos"; do
+	for repo in `cat "${CONFIG_DIR}/repos"`; do
 		print "- $repo"
 	done
 	PACKAGE_MANAGER_ENABLED=1
