@@ -33,7 +33,6 @@ nginx_install() {
 
 	mkdir -p "${BUILD_DIR}/vendor"
 
-	FOLDER_NAME=`basename "$BINARIES" ".tar.gz"`
 	CUR_DIR=`pwd`
 
 	# Extract Nginx
