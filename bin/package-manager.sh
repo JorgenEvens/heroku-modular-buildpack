@@ -72,8 +72,7 @@ package_update_repo() {
 }
 
 # Update when commandline flag --update-manager was given.
-echo "$*" | grep -q "\--update-manager"
-if [ $? -eq 0 ]; then
+if [ ! -z "$RELOAD_REPOSITORY" ]; then
 	package_update_repo
 fi
 
