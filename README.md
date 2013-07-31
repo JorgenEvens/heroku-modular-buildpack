@@ -55,6 +55,10 @@ nginx-deploy-page http://jorgen.evens.eu/heroku/nginx-deploy-page.sh # Exposes d
 
 Note: Currently no versioning of packages is available. If you would like to add multiple versions you will have to include the version in the package name. `nginx-1.4.2` for example.
 
+### Repository sample + tools
+
+There is a [github repository][4] with nginx and php packages in it and a script that helps you build an index of a local directory.
+
 ## Custom installers
 
 You can build your own buildpack by forking this repository and adding your own installers, but if you would
@@ -103,3 +107,4 @@ This project is available under the New BSD License.
 [1]: https://devcenter.heroku.com/articles/buildpack-api#bin-release
 [2]: #custom-installers
 [3]: #package-manager
+[4]: https://github.com/JorgenEvens/heroku-packages
