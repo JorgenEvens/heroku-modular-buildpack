@@ -83,6 +83,8 @@ An installer has access to some helper functions to print to the console and to 
 - `print`: prints the message prefixed with spaces to align it with `print_action`.
 - `dependency_require <package>`: requires the installation of the dependency before continuing. 
 - `dependency_mark <package>`: marks a package as installed. This is primarily for internal use.
+- `download`: Downloads a file to the specified location and checks if the MD5 hash is correct.
+- `cached_download`: Performs the same function as `download` but caches the files.
 
 Note: You should NOT mark your own package as installed using `dependency_mark`, this is done for you.
 
@@ -100,6 +102,12 @@ A `wait` will be added to the end of the boot.sh script so that the script will 
 ## Project specific compile
 
 The project specific `compile` script has access to the same functionality as a [custom installer][2] and is for all intents and purposes a custom installer that always gets run at the end.
+
+## Contributions
+
+Special thanks to these people for contributing to this project
+
+ - [Wim Mostmans](https://twitter.com/Sitebase)
 
 ## License
 This project is available under the New BSD License.
