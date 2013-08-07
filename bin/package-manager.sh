@@ -23,7 +23,17 @@ package_search() {
 		return
 	fi
 
-	echo "${FOUND}" | cut -d" " -f2
+	echo "$FOUND"
+}
+
+# Extracts URL from package index
+package_url() {
+	echo "$1" | cut -d" " -f2
+}
+
+# Extracts MD5 from package index
+package_md5() {
+	echo "$1" | cut -d" " -f3
 }
 
 # Searches if a package exists by this name and display messages
@@ -43,20 +53,36 @@ package_search_interactive() {
 		return
 	fi
 
-	URL=$(package_search $1)
+	PACKAGE=$(package_search $1)
+	URL=$(package_url "${PACKAGE}")
 	print "Package ${1} found at ${URL}."
 }
 
 # Install a given package
 package_install() {
 	mkdir -p "$PACKAGE_CACHE" 2> /dev/null
-	PACKAGE_URL=$(package_search $1)
+	PACKAGE=$(package_search $1)
+	PACKAGE_URL=$(package_url "${PACKAGE}")
+	PACKAGE_MD5=$(package_md5 "${PACKAGE}")
 
 	print_action "Installing package ${1} through package manager"
 	print "from location ${PACKAGE_URL}."
 
 	TARGET="$PACKAGE_CACHE/$(basename $PACKAGE_URL)"
-	download "${PACKAGE_URL}" "$TARGET"
+	DOWNLOAD=$(cached_download "${PACKAGE_URL}" "${TARGET}" "${PACKAGE_MD5}" "false")
+	
+	if [ $DOWNLOAD -gt 0 ]; then
+		print "MD5 still not correct, updating REPO and retrying"
+		if [ -z "$2" ]; then
+			package_update_repo
+			package_install $1 "false"
+			return
+		else
+			print_action "Unable to find correct version of $1"
+			print "MD5 mismatch, expecting $PACKAGE_MD5 on $(basename $TARGET)"
+			exit 1
+		fi
+	fi
 	. "$TARGET"
 }
 
