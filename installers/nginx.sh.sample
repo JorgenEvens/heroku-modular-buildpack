@@ -18,14 +18,9 @@ nginx_download() {
 	URL="${HOST}/$(basename $TARGET)"
 
 	print_action "Checking cache for $TARGET."
-	if [ ! -f "$TARGET" ]; then
-		print_action "Downloading Nginx ${NGINX_VERSION} from ${URL} to ${TARGET}"
-		download "$URL" "$TARGET"
-	fi
-	if [ ! -f "$TARGET" ]; then
-		print "Unable to download the package"
-		exit 1
-	fi
+
+	print_action "Downloading Nginx ${NGINX_VERSION} from ${URL} to ${TARGET}"
+	cached_download "$URL" "$TARGET"
 }
 
 nginx_install() {
