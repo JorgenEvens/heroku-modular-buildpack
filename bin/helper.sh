@@ -41,6 +41,7 @@ download() {
 	fi
 
 	echo 0
+}
 
 
 cached_download() {
