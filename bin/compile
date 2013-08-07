@@ -2,9 +2,12 @@
 
 #############################################################
 ## Provides a modular system for custom heroku deployments ##
-##							   ##
+##							   							   ##
 ## Author: Jorgen Evens <jorgen@evens.eu>                  ##
-## License: New BSD License				   ##
+## License: New BSD License				   				   ##
+##										   				   ##
+## Contributions by:	 				   				   ##
+## Wim Mostmans ( https://github.com/Sitebase )			   ##
 #############################################################
 
 BIN_DIR=$(dirname $0)
