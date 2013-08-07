@@ -51,7 +51,7 @@ cached_download() {
 	EXIT_ON_FAIL=$4
 
 	if [ -f "$TARGET" ]; then
-		if [ -z "$MD5" ] || [ $(md5 $TARGET) == "$MD5" ]; then
+		if [ -z "$MD5" || $(md5 $TARGET) == "$MD5" ]; then
 			return
 		fi
 	fi

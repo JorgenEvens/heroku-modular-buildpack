@@ -71,7 +71,7 @@ package_install() {
 	TARGET="$PACKAGE_CACHE/$(basename $PACKAGE_URL)"
 	DOWNLOAD=$(cached_download "${PACKAGE_URL}" "${TARGET}" "${PACKAGE_MD5}" "false")
 	
-	if [ $DOWNLOAD -gt 0 ]; then
+	if [ "$DOWNLOAD" -gt 0 ]; then
 		print "MD5 still not correct, updating REPO and retrying"
 		if [ -z "$2" ]; then
 			package_update_repo
