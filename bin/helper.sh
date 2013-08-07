@@ -35,7 +35,8 @@ download() {
 	fi
 
 	if [ ! -z "$MD5" ]; then
-		if [ $(md5 "$TARGET") != "$MD5" ]; then
+		TMP_MD5=$(md5 "$TARGET")
+		if [ "$TMP_MD5" != "$MD5" ]; then
 			echo 2
 		fi
 	fi
