@@ -23,11 +23,15 @@ md5() {
 }
 
 download() {
-	URL=$1
-	TARGET=$2
-	MD5=$3
+	local URL
+	local TARGET
+	local MD5
+	local TMP_MD5
 
-	print_action "Downloading $URL"
+	URL="$1"
+	TARGET="$2"
+	MD5="$3"
+
 	curl -# -f -o "$TARGET" "$URL"
 
 	if [ ! -f "$TARGET" ]; then
@@ -40,31 +44,39 @@ download() {
 			echo 2
 		fi
 	fi
-
-	echo 0
 }
 
 
 cached_download() {
-	URL=$1
-	TARGET=$2
-	MD5=$3
-	EXIT_ON_FAIL=$4
+	local URL
+	local TARGET
+	local MD5
+	local EXIT_ON_FAIL
+	local TMP_MD5
+	local DOWNLOAD
+
+	URL="$1"
+	TARGET="$2"
+	MD5="$3"
+	EXIT_ON_FAIL="$4"
 
 	if [ -f "$TARGET" ]; then
-		if [ -z "$MD5" || $(md5 $TARGET) == "$MD5" ]; then
+		TMP_MD5=$(md5 "$TARGET")
+		if ( [ -z "$MD5" ] || [ "$TMP_MD5" = "$MD5" ] ); then
+			echo 0
 			return
 		fi
 	fi
 
 	DOWNLOAD=$(download "$URL" "$TARGET" "$MD5")
 
-	if [ $DOWNLOAD -gt 0 ]; then
-		print_action "Was unable to download $URL or use a cached version, exiting."
+	if [ ! -z "$DOWNLOAD" ]; then
 		if [ -z "$EXIT_ON_FAIL" ]; then
+			print_action "Was unable to download $URL or use a cached version, exiting."
 			exit 1
 		else
-			echo 1
+			echo $DOWNLOAD
+			return
 		fi
 	fi
 
