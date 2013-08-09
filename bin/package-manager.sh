@@ -22,7 +22,7 @@ package_search() {
 	if ( [ $COUNT -gt 1 ] || [ -z "$FOUND" ] ); then
 		if [ -z "$PACKAGE_LIST_UPDATED" ]; then
 			PACKAGE_LIST_UPDATED="true"
-			package_update_repo
+			$(package_update_repo) # do not echo
 			package_search "$1"
 			return
 		fi
