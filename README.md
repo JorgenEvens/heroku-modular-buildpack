@@ -43,21 +43,22 @@ http://example.com/deploy/heroku
 
 ### Repositories
 
-A repository is a plain text file using the following format `<package-name> <package-link> <comments>` where each package is on its own line. It is important to use a space to separate the package from its link, a tab is currently not supported.
+A repository is a plain text file using the following format `<package-name> <package-link> <package-md5> <comments>` where each package is on its own line. It is important to use a space to separate the package from its link, a tab is currently not supported.
 
 `<package-link>` is a link ( any link supported by curl ) to the [installer file][2] for the package.
+`<package-md5>` is a md5 hash of the installer file which is used to check for an outdated cache.
 
 A sample repository
 
 ```
-nginx-deploy-page http://jorgen.evens.eu/heroku/nginx-deploy-page.sh # Exposes deployment information through a static page.
+nginx-deploy-page http://jorgen.evens.eu/heroku/nginx-deploy-page.sh 9bbb050c6bba8c7ad8f738ef056088ae # Exposes deployment information through a static page.
 ```
 
 Note: Currently no versioning of packages is available. If you would like to add multiple versions you will have to include the version in the package name. `nginx-1.4.2` for example.
 
 ### Repository sample + tools
 
-There is a [github repository][4] with nginx and php packages in it and a script that helps you build an index of a local directory.
+There is a [github repository][4] with some prebuilt packages in it and a script that helps you build an index of a local directory.
 
 ## Custom installers
 
