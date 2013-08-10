@@ -89,6 +89,27 @@ An installer has access to some helper functions to print to the console and to 
 
 Note: You should NOT mark your own package as installed using `dependency_mark`, this is done for you.
 
+#### `dependency_mark` use case
+
+A sample use-case for the `dependency_mark` function is given here to illustrate its use.
+
+If your package can be used as a drop-in replacement for another package you can mark the original package as installed so your package does not get overwritten when a different package depends on the original.
+
+An example:
+
+- There is a generic `nginx` package in your repository
+- There is a `nginx-module` package which is nginx with a specific module compiled in.
+- There is a package `nginx-status` which depends on the generic `nginx` package.
+
+In this scenario we would like to combine `nginx-module` with `nginx-status`, if we would setup our `install` file like illustrated below we would overwrite `nginx-module` with generic `nginx` since `nginx-status` depends on it.
+
+```
+nginx-module nginx-status
+```
+
+To solve this problem we can mark `nginx` as installed at the end of our `nginx-module` installer by calling `dependency_mark nginx`.
+Now when `nginx-status` is installed `nginx` will be reported as installed and `nginx-module` will not get overwritten.
+
 ### boot.sh
 
 A `boot.sh` file is always created with a shebang `#!/bin/sh` followed by an empty line. If your installer wants to add something to the `boot.sh` file you should simple append the lines to the `${BUILD_DIR}/boot.sh` file.
