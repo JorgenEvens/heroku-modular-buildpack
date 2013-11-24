@@ -37,6 +37,11 @@ fi
 cat > "${BUILD_DIR}/boot.sh" << EOF
 #!/bin/sh
 
+# Run configuration tasks first.
+if[ -f "/app/configure.sh" ]; then
+	. /app/configure.sh
+fi
+
 EOF
 chmod +x "${BUILD_DIR}/boot.sh"
 
