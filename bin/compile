@@ -51,6 +51,34 @@ dependency_mark() {
         INSTALLED_DEPENDENCIES="$INSTALLED_DEPENDENCIES $1"
 }
 
+# Installs a dependency if it was previously found
+# Keeps global INSTALLER_DIR intact
+dependency_install() {
+	local name
+	local location
+	local origin
+	name="$1"
+	location="$2"
+	origin="$3"
+
+	if [ ! -z "$3" ]; then
+		origin="$3"
+	fi
+
+	# Store old package path so it can be restored after
+	# the dependency is installed.
+	local old_location
+	old_location="${INSTALLER_DIR}"
+
+	INSTALLER_DIR="`dirname \"${location}\"`"
+
+	# Install package
+	. "${location}"
+	dependency_mark "${name}"
+
+	INSTALLER_DIR="${old_location}"
+}
+
 # Include a dependency because someone relies on this.
 dependency_require() {
 	local package=$1
@@ -60,23 +88,23 @@ dependency_require() {
 		return;
 	fi
 
+	# Included in project
 	if [ -f "${CONFIG_DIR}/installers/${package}.sh" ]; then
-		. "${CONFIG_DIR}/installers/${package}.sh"
-		dependency_mark "${package}"
+		dependency_install "${package}" "${CONFIG_DIR}/installers/${package}.sh"
 		return;
 	fi
 
+	# Included in buildpack
 	if [ -f "${BIN_DIR}/../installers/${package}.sh" ]; then
-		. "${BIN_DIR}/../installers/${package}.sh"
-		dependency_mark "${package}"
+		dependency_install "${package}" "${BIN_DIR}/../installers/${package}.sh"
 		return
 	fi
 
+	# Can be found in a repository
 	if [ "$PACKAGE_MANAGER_ENABLED" -gt 0 ]; then
 		package_search_interactive "${package}"
 		if [ ! -z "$(package_search ${package})" ]; then
 			package_install "${package}"
-			dependency_mark "${package}"
 			return
 		fi
 	fi

@@ -101,7 +101,7 @@ package_install() {
 			exit $DOWNLOAD
 		fi
 	fi
-	. "$TARGET"
+	dependency_install "$1" "$TARGET" "$PACKAGE_URL"
 }
 
 # Update the package cache and package list
