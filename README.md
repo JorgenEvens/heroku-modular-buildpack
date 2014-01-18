@@ -69,12 +69,15 @@ An alternative is to use the [package manager][3] to distribute the packages.
 
 ### Variables
 
-The buildpack passes 2 variables into the installer, these are the exact same variables as Heroku passes to the compile script.
+The buildpack passes 3 variables into the installer, two of which are the exact same variables as Heroku passes to the compile script. The third indicates the location at which the installer was stored.
 
  - $BUILD_DIR
  - $CACHE_DIR
+ - $INSTALLER_DIR
 
 These directories are created for you when the buildpack runs.
+
+Note: When using the package manager `$INSTALLER_DIR` will point to the location in the repository file rather than to the local copy that gets downloaded.
 
 ### Helper functions
 
