@@ -70,7 +70,7 @@ dependency_install() {
 	local old_location
 	old_location="${INSTALLER_DIR}"
 
-	INSTALLER_DIR="`dirname \"${origin}\"`"
+	INSTALLER_DIR="`dirname \"${origin}\" | sed 's/\/*$//'`"
 
 	# Install package
 	. "${location}"
