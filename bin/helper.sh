@@ -12,6 +12,10 @@ fi
 
 CONFIG_DIR="${BUILD_DIR}/build/heroku"
 
+# Clean cache when CLEAN_CACHE environment variable is non-empty
+if [ ! -z "$CLEAR_CACHE" ]; then
+	rm -Rf "$CACHE_DIR"
+fi
 mkdir -p "$CACHE_DIR"
 mkdir -p "$BUILD_DIR"
 

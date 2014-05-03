@@ -131,6 +131,11 @@ A `wait` will be added to the end of the boot.sh script so that the script will 
 
 The project specific `compile` script has access to the same functionality as a [custom installer][2] and is for all intents and purposes a custom installer that always gets run at the end.
 
+## Cleaning cache
+
+Setting the environment variable `CLEAN_CACHE` to a non empty value will result in the buildpack removing the `CACHE_DIR` before running any installers.
+This will ensure that the cache is empty and all the required packages and files will be downloaded again.
+
 ## Contributions
 
 Special thanks to these people for contributing to this project
