@@ -2,6 +2,13 @@
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
+
+if [ -d "$ENV_DIR" ]; then
+	for _env_variable in `ls "$ENV_DIR"`; do
+		. "${ENV_DIR}/${_env_variable}"
+	done
+fi
 
 CONFIG_DIR="${BUILD_DIR}/build/heroku"
 
