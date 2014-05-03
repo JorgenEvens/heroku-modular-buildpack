@@ -6,7 +6,7 @@ ENV_DIR=$3
 
 if [ -d "$ENV_DIR" ]; then
 	for _env_variable in `ls "$ENV_DIR"`; do
-		. "${ENV_DIR}/${_env_variable}"
+		export ${_env_variable}=$(cat "${ENV_DIR}/${_env_variable}")
 	done
 fi
 
