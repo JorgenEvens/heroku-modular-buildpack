@@ -33,6 +33,40 @@ md5() {
 	echo $(md5sum "$FILE" | cut -d" " -f1)
 }
 
+unpack() {
+	local CUR_DIR
+
+	local BASENAME
+	local MD5
+	local INTO
+	local CLEAN
+
+	BASENAME="`basename $1`"
+	MD5="$2"
+	INTO="$3"
+	CLEAN="$4"
+
+	if [ -z "$INTO" ]; then
+		INTO="vendor"
+	fi
+
+	if [ ! -z "$CLEAN" ]; then
+		CLEAN="--recursive-unlink"
+	fi
+
+	print_action "Downloading $BASENAME"
+	cached_download "$1" "${CACHE_DIR}/${BASENAME}" "$MD5" true
+
+	print_action "Unpacking $BASENAME to /app/$INTO"
+	mkdir -p "${BUILD_DIR}/$INTO"
+
+	CUR_DIR=`pwd`
+
+	cd "${BUILD_DIR}/$INTO"
+	tar $CLEAN -xf "${BINARIES}"
+	cd "${CUR_DIR}"
+}
+
 download() {
 	local URL
 	local TARGET
