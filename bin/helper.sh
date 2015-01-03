@@ -36,12 +36,14 @@ md5() {
 unpack() {
 	local CUR_DIR
 
+	local URL
 	local BASENAME
 	local MD5
 	local INTO
 	local CLEAN
 
-	BASENAME="`basename $1`"
+	URL="$1"
+	BASENAME="`basename $URL`"
 	MD5="$2"
 	INTO="$3"
 	CLEAN="$4"
@@ -55,7 +57,7 @@ unpack() {
 	fi
 
 	print_action "Downloading $BASENAME"
-	cached_download "$1" "${CACHE_DIR}/${BASENAME}" "$MD5" true
+	cached_download "$URL" "${CACHE_DIR}/${BASENAME}" "$MD5" true
 
 	print_action "Unpacking $BASENAME to /app/$INTO"
 	mkdir -p "${BUILD_DIR}/$INTO"

@@ -86,12 +86,13 @@ Note: When using the package manager `$INSTALLER_DIR` will point to the location
 
 An installer has access to some helper functions to print to the console and to manage dependencies it might require.
 
-- `print_action`: prints the message prefixed with the '-------> ' arrow.
-- `print`: prints the message prefixed with spaces to align it with `print_action`.
+- `print_action <message>`: prints the message prefixed with the '-------> ' arrow.
+- `print <message>`: prints the message prefixed with spaces to align it with `print_action`.
 - `dependency_require <package>`: requires the installation of the dependency before continuing. 
 - `dependency_mark <package>`: marks a package as installed. This is primarily for internal use.
-- `download`: Downloads a file to the specified location and checks if the MD5 hash is correct.
-- `cached_download`: Performs the same function as `download` but caches the files.
+- `download <url> <target> [<md5>]`: Downloads a file to the specified location and checks if the MD5 hash is correct.
+- `cached_download <url> <target> [<md5> [<exit_on_fail>]]`: Performs the same function as `download` but caches the files.
+- `unpack <url> <md5> [<target> [<clean_target>]]`: Downloads the specified .tar.gz file using `cached_download` and extracts the contents into `/app/vendor` by default.
 
 Note: You should NOT mark your own package as installed using `dependency_mark`, this is done for you.
 
