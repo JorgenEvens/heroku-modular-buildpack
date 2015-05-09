@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BUILD_DIR=$1
+BUILD_DIR="$1"
 PACKAGE="${BUILD_DIR}/build/heroku/package"
 
 if [ -f "${PACKAGE}" ]; then
