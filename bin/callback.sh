@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CALLBACK_LIST=()
+declare -a CALLBACK_LIST
 
 callback_register() {
 	local CALLBACK_LEN
