@@ -66,6 +66,8 @@ dependency_install() {
 		origin="$3"
 	fi
 
+	callback_trigger "pre-install" "$name"
+
 	# Store old package path so it can be restored after
 	# the dependency is installed.
 	local old_location
@@ -78,6 +80,8 @@ dependency_install() {
 	dependency_mark "${name}"
 
 	INSTALLER_DIR="${old_location}"
+
+	callback_trigger "post-install" "$name"
 }
 
 # Include a dependency because someone relies on this.
@@ -114,13 +118,21 @@ dependency_require() {
 	exit 1
 }
 
+callback_trigger "pre-dependencies"
+
 # Install all packages contained within $INSTALL
 for package in $INSTALL; do
 	dependency_require "${package}"
 done
 
+callback_trigger "post-dependencies"
+
 if [ -f "${CONFIG_DIR}/compile" ]; then
+	callback_trigger "pre-compile"
 	. "${CONFIG_DIR}/compile"
+	callback_trigger "post-compile"
 fi
 
 echo "wait" >> "${BUILD_DIR}/boot.sh"
+
+callback_trigger "done"
