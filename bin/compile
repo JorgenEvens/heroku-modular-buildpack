@@ -14,6 +14,7 @@ BIN_DIR=$(dirname $0)
 
 # Include helper
 . "$BIN_DIR/helper.sh"
+. "$BIN_DIR/callback.sh"
 
 INSTALL="${CONFIG_DIR}/install"
 if [ -f "$INSTALL" ]; then
