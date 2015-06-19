@@ -1,23 +1,24 @@
 #!/bin/sh
 
-declare -a CALLBACK_LIST
+CALLBACK_LIST=""
+CALLBACK_SEP=$'\n'
 
 callback_register() {
-	local CALLBACK_LEN
 	local PARAM
+	local SPLIT
 
-	CALLBACK_LEN=${#CALLBACK_LIST[@]}
-	PARAM=()
+	PARAM="'$1'"
+	shift
 
 	# Escape each parameter using single quotes such
 	# that we can use eval when triggering the callback
 	# and still group the parameters correctly when
 	# containing a space.
 	for p in "$@"; do
-		PARAM+=" '$p'"
+		PARAM="$PARAM '$p'"
 	done
 
-	CALLBACK_LIST["$CALLBACK_LEN"]="$PARAM"
+	CALLBACK_LIST="${CALLBACK_LIST}${PARAM}${CALLBACK_SEP}"
 }
 
 callback_run() {
@@ -28,16 +29,20 @@ callback_run() {
 }
 
 callback_trigger() {
-	local CALLBACK_LEN
 	local CALLBACK_TRIGGER
-	local CALLBACK_ID
+	local OLD_IFS
+	local cb
 
-	CALLBACK_LEN=${#CALLBACK_LIST[@]}
 	CALLBACK_TRIGGER="$1"
+	OLD_IFS="$IFS"
 
 	shift
 
-	for (( CALLBACK_ID=0; CALLBACK_ID<$CALLBACK_LEN; CALLBACK_ID++ )); do
-		eval "callback_run '$CALLBACK_TRIGGER' ${CALLBACK_LIST[$CALLBACK_ID]} $@"
+	IFS="$CALLBACK_SEP"
+
+	for cb in $CALLBACK_LIST; do
+		eval "callback_run '$CALLBACK_TRIGGER' $cb $@"
 	done
+
+	IFS="$OLD_IFS"
 }
