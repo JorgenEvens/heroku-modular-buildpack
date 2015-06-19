@@ -65,7 +65,7 @@ unpack() {
 	CUR_DIR=`pwd`
 
 	cd "${BUILD_DIR}/$INTO"
-	tar $CLEAN -xf "${BINARIES}"
+	tar $CLEAN -xf "${CACHE_DIR}/${BASENAME}"
 	cd "${CUR_DIR}"
 }
 
