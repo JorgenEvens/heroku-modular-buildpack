@@ -30,7 +30,11 @@ print() {
 md5() {
 	FILE="$1"
 
-	echo $(md5sum "$FILE" | cut -d" " -f1)
+	if [ -z "`which md5sum`" ]; then
+		echo $(md5 "$FILE" | cut -d" " -f4)
+	else
+		echo $(md5sum "$FILE" | cut -d" " -f1)
+	fi
 }
 
 unpack() {
