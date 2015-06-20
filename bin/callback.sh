@@ -1,7 +1,8 @@
 #!/bin/sh
 
 CALLBACK_LIST=""
-CALLBACK_SEP=$'\n'
+CALLBACK_SEP="
+"
 
 callback_register() {
 	local PARAM
@@ -22,7 +23,7 @@ callback_register() {
 }
 
 callback_run() {
-	if [ "$1" == "$2" ]; then
+	if [ "$1" = "$2" ]; then
 		shift 2
 		"$@"
 	fi
@@ -40,7 +41,11 @@ callback_trigger() {
 
 	IFS="$CALLBACK_SEP"
 
+	echo "$CALLBACK_LIST"
+
 	for cb in $CALLBACK_LIST; do
+		echo "# $cb"
+		echo "# callback_run '$CALLBACK_TRIGGER' $cb $@"
 		eval "callback_run '$CALLBACK_TRIGGER' $cb $@"
 	done
 
