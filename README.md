@@ -37,7 +37,7 @@ The file-format of the `repos` file is as simple as a link ( any link supported 
 Sample `repos` file:
 
 ```
-http://jorgen.evens.eu/heroku/index
+http://jorgen.evens.eu/heroku-cedar14/index
 http://example.com/deploy/heroku
 ```
 
@@ -58,7 +58,7 @@ Note: Currently no versioning of packages is available. If you would like to add
 
 ### Repository sample + tools
 
-There is a [github repository][4] with some prebuilt packages in it and a script that helps you build an index of a local directory.
+There is a [github repository][4] with the scripts to generate a repository for the packages contained within it.
 
 ## Custom installers
 
@@ -88,7 +88,7 @@ An installer has access to some helper functions to print to the console and to 
 
 - `print_action <message>`: prints the message prefixed with the '-------> ' arrow.
 - `print <message>`: prints the message prefixed with spaces to align it with `print_action`.
-- `dependency_require <package>`: requires the installation of the dependency before continuing. 
+- `dependency_require <package>`: requires the installation of the dependency before continuing.
 - `dependency_mark <package>`: marks a package as installed. This is primarily for internal use.
 - `download <url> <target> [<md5>]`: Downloads a file to the specified location and checks if the MD5 hash is correct.
 - `cached_download <url> <target> [<md5> [<exit_on_fail>]]`: Performs the same function as `download` but caches the files.
@@ -149,4 +149,4 @@ This project is available under the New BSD License.
 [1]: https://devcenter.heroku.com/articles/buildpack-api#bin-release
 [2]: #custom-installers
 [3]: #package-manager
-[4]: https://github.com/JorgenEvens/heroku-packages
+[4]: https://github.com/JorgenEvens/heroku-packages-cedar14
