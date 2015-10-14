@@ -68,8 +68,11 @@ dependency_install() {
 	# Store old package path so it can be restored after
 	# the dependency is installed.
 	local old_location
+	local old_name
 	old_location="${INSTALLER_DIR}"
+	old_name="${PACKAGE}"
 
+	PACKAGE="${name}"
 	INSTALLER_DIR="`dirname \"${origin}\" | sed 's/\/*$//'`"
 
 	# Install package
@@ -77,6 +80,7 @@ dependency_install() {
 	dependency_mark "${name}"
 
 	INSTALLER_DIR="${old_location}"
+	PACKAGE="${old_name}"
 }
 
 # Include a dependency because someone relies on this.

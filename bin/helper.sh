@@ -69,6 +69,7 @@ unpack() {
 	cd "${CUR_DIR}"
 }
 
+# Download a file to a target location and optionally validate the MD5 hash
 download() {
 	local URL
 	local TARGET
@@ -93,7 +94,7 @@ download() {
 	fi
 }
 
-
+# Download a file using `download` and cache the result.
 cached_download() {
 	local URL
 	local TARGET
@@ -128,4 +129,31 @@ cached_download() {
 	fi
 
 	echo 0
+}
+
+# Extend an environment variable with a value
+# This generates the .profile.d files required in the compiled app.
+# This also sets the current environment variable.
+env_extend() {
+    local VAR
+    local VAL
+	local ORIGINAL
+	local PKG_PROFILE
+
+	PKG_PROFILE="${PACKAGE}"
+	test -z "${PKG_PROFILE}" && PKG_PROFILE="general"
+
+    VAR="$1"
+    shift
+    VAL="$@"
+
+	mkdir -p "${BUILD_DIR}/.profile.d"
+    echo "export $VAR=\"\$$VAR:$VAL\"" > "${BUILD_DIR}/.profile.d/${PKG_PROFILE}.sh"
+
+    VAL="`echo $VAL | sed 's/^\/app//'`"
+    test "$VAL" != "$@" && VAL="${BUILD_DIR}${VAL}"
+
+	ORIGINAL="$(eval echo \$$VAR)"
+	test ! -z "$ORIGINAL" && ORIGINAL="${ORIGINAL}:"
+    export $VAR="${ORIGINAL}${VAL}"
 }
