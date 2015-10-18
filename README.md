@@ -93,6 +93,7 @@ An installer has access to some helper functions to print to the console and to 
 - `download <url> <target> [<md5>]`: Downloads a file to the specified location and checks if the MD5 hash is correct.
 - `cached_download <url> <target> [<md5> [<exit_on_fail>]]`: Performs the same function as `download` but caches the files.
 - `unpack <url> <md5> [<target> [<clean_target>]]`: Downloads the specified .tar.gz file using `cached_download` and extracts the contents into `/app/vendor` by default.
+- `env_extend <environment_variable> <value_to_be_added>`: Append `value_to_be_added` to `environment_variable` separated by a semicolon. Use this to extend `PATH` and/or `LD_LIBRARY_PATH`.
 
 Note: You should NOT mark your own package as installed using `dependency_mark`, this is done for you.
 
