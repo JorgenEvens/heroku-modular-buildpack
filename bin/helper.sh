@@ -148,7 +148,7 @@ env_extend() {
     VAL="$@"
 
 	mkdir -p "${BUILD_DIR}/.profile.d"
-    echo "export $VAR=\"\$$VAR:$VAL\"" > "${BUILD_DIR}/.profile.d/${PKG_PROFILE}.sh"
+    echo "export $VAR=\"\$$VAR:$VAL\"" >> "${BUILD_DIR}/.profile.d/${PKG_PROFILE}.sh"
 
     VAL="`echo $VAL | sed 's/^\/app//'`"
     test "$VAL" != "$@" && VAL="${BUILD_DIR}${VAL}"
