@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+title: Heroku modular buildpack
+description: A Heroku buildpack providing a package manager and dependency management.
+google_analytics: UA-25703748-6
