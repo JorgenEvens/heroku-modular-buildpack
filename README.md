@@ -140,12 +140,18 @@ This will ensure that the cache is empty and all the required packages and files
 
 ## Contributions
 
+I really appreciate any contribution you would like to make, so don't hesitate to report an issue or submit pull requests.
+
 Special thanks to these people for contributing to this project
 
  - [Wim Mostmans](https://twitter.com/Sitebase)
 
 ## License
 This project is available under the New BSD License.
+
+## About me
+
+Hi, my name is [Jorgen Evens](https://jorgen.evens.eu). By day I built things (mainly in PHP and JavaScript) for [Ambassify](https://ambassify.com) and by night I tinker around with these kinds of projects.
 
 [1]: https://devcenter.heroku.com/articles/buildpack-api#bin-release
 [2]: #custom-installers
