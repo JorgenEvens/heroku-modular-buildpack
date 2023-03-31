@@ -151,7 +151,7 @@ This project is available under the New BSD License.
 
 ## About me
 
-Hi, my name is [Jorgen Evens](https://jorgen.evens.eu). By day I built things (mainly in PHP and JavaScript) for [Ambassify](https://ambassify.com) and by night I tinker around with these kinds of projects.
+Hi, my name is [Jorgen Evens](https://jorgen.evens.eu). By day I built things (mainly in PHP and JavaScript) for [employee advocacy platform Ambassify](https://www.ambassify.com) and by night I tinker around with these kinds of projects.
 
 [1]: https://devcenter.heroku.com/articles/buildpack-api#bin-release
 [2]: #custom-installers
